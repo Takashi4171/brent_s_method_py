@@ -29,3 +29,10 @@ The trade-off: no vectorised fancy interface, no relative tolerance across scale
 ## Awkward edge you will hit
 
 If your function returns `NaN` or `inf` inside the interval, the implementation falls back to bisection for that step and, if even bisection yields a non-finite value, stops with `reason="max_iterations"`. A continuous, finite function on a real bracket is assumed; nothing here will rescue a function that is genuinely broken on the interval.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
